@@ -17,11 +17,12 @@ APlayerPawn::APlayerPawn()
 	PawnMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PawnMesh"));
 	PawnMesh->SetupAttachment(RootComponent);
 
-	CamSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CamSpringArm"));
-	CamSpringArm->SetupAttachment(RootComponent);
-
 	PawnCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera"));
-	PawnCamera->SetupAttachment(CamSpringArm);
+}
+
+void APlayerPawn::PossessedBy(AController* NewController)
+{
+	PlayerController = Cast<APlayerController>(NewController);
 }
 
 // Called when the game starts or when spawned
@@ -35,19 +36,30 @@ void APlayerPawn::BeginPlay()
 void APlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	APlayerController* PlayerController = Cast<APlayerController>(GetController());
-
-	PlayerController->GetInputTouchState(ETouchIndex::Touch1, TouchX, TouchY, Touch);
-	if (Touch)
-	{
-		UE_LOG(LogTemp, Log, TEXT("Touching in %f-%f"), TouchLocation.X - TouchX, TouchLocation.Y - TouchY);
-		TouchLocation = FVector2D(TouchX, TouchY);
-	}
 }
 
 // Called to bind functionality to input
 void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	InputComponent->BindTouch(IE_Pressed, this, &APlayerPawn::OnTouchPress);
+	InputComponent->BindTouch(IE_Repeat, this, &APlayerPawn::OnTouchMove);
+}
+
+void APlayerPawn::OnTouchPress(ETouchIndex::Type FinerIndex, FVector Location)
+{
+	TouchLocation = FVector2D(Location.X, Location.Y);
+}
+
+void APlayerPawn::OnTouchMove(ETouchIndex::Type FinerIndex, FVector Location)
+{
+	FVector2D TouchDeltaMove = FVector2D(TouchLocation.X - Location.X, TouchLocation.Y - Location.Y);
+	FVector NewLocation = GetActorLocation();
+
+	NewLocation.X = FMath::Clamp(NewLocation.X + TouchDeltaMove.Y, -500.f, 500.f);
+	NewLocation.Y = FMath::Clamp(NewLocation.Y + TouchDeltaMove.X*-1.f, -600.f, 600.f);
+
+	SetActorLocation(NewLocation);
+
+	TouchLocation = FVector2D(Location.X, Location.Y);
 }
