@@ -2,6 +2,8 @@
 
 #include "PlayerPawn.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/InputComponent.h"
+#include "GameFramework/PlayerController.h"
 
 // Sets default values
 APlayerPawn::APlayerPawn()
@@ -33,13 +35,19 @@ void APlayerPawn::BeginPlay()
 void APlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
 
+	PlayerController->GetInputTouchState(ETouchIndex::Touch1, TouchX, TouchY, Touch);
+	if (Touch)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Touching in %f-%f"), TouchLocation.X - TouchX, TouchLocation.Y - TouchY);
+		TouchLocation = FVector2D(TouchX, TouchY);
+	}
 }
 
 // Called to bind functionality to input
 void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
-
