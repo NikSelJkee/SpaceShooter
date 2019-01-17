@@ -7,6 +7,9 @@
 
 // Sets default values
 APlayerPawn::APlayerPawn()
+	:
+	TouchMoveSensivity(1.f),
+	MoveLimit(FVector2D(500.f, 600.f))
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -16,6 +19,8 @@ APlayerPawn::APlayerPawn()
 
 	PawnMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PawnMesh"));
 	PawnMesh->SetupAttachment(RootComponent);
+
+	ShootComponent = CreateDefaultSubobject<UShootComponent>(TEXT("ShootComponent"));
 
 	PawnCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera"));
 }
@@ -46,18 +51,19 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	InputComponent->BindTouch(IE_Repeat, this, &APlayerPawn::OnTouchMove);
 }
 
-void APlayerPawn::OnTouchPress(ETouchIndex::Type FinerIndex, FVector Location)
+void APlayerPawn::OnTouchPress(ETouchIndex::Type FingerIndex, FVector Location)
 {
-	TouchLocation = FVector2D(Location.X, Location.Y);
+	TouchLocation = FVector2D(Location.X, Location.Y);	
 }
 
-void APlayerPawn::OnTouchMove(ETouchIndex::Type FinerIndex, FVector Location)
+void APlayerPawn::OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location)
 {
 	FVector2D TouchDeltaMove = FVector2D(TouchLocation.X - Location.X, TouchLocation.Y - Location.Y);
+	TouchDeltaMove *=  TouchMoveSensivity;
 	FVector NewLocation = GetActorLocation();
 
-	NewLocation.X = FMath::Clamp(NewLocation.X + TouchDeltaMove.Y, -500.f, 500.f);
-	NewLocation.Y = FMath::Clamp(NewLocation.Y + TouchDeltaMove.X*-1.f, -600.f, 600.f);
+	NewLocation.X = FMath::Clamp(NewLocation.X + TouchDeltaMove.Y, -MoveLimit.Y, MoveLimit.Y);
+	NewLocation.Y = FMath::Clamp(NewLocation.Y + TouchDeltaMove.X*-1.f, -MoveLimit.X, MoveLimit.X);
 
 	SetActorLocation(NewLocation);
 

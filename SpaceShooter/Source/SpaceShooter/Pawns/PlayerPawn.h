@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/ShootComponent.h"
 #include "PlayerPawn.generated.h"
 
 UCLASS()
@@ -24,9 +25,11 @@ protected:
 
 	virtual void PossessedBy(AController* NewController) override;
 
-	void OnTouchPress(ETouchIndex::Type FinerIndex, FVector Location);
-	void OnTouchMove(ETouchIndex::Type FinerIndex, FVector Location);
+	void OnTouchPress(ETouchIndex::Type FingerIndex, FVector Location);
+	void OnTouchMove(ETouchIndex::Type FingerIndex, FVector Location);
 
+	FVector2D MoveLimit;
+	
 	APlayerController* PlayerController;
 
 private:
@@ -49,4 +52,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pawn")
 		UCameraComponent* PawnCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shooting")
+		UShootComponent* ShootComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Controls")
+		float TouchMoveSensivity;
 };
