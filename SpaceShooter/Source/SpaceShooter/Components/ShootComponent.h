@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Actors/Projectiles/ShootProjectile.h"
 #include "ShootComponent.generated.h"
 
 
@@ -35,4 +36,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
 		float ShootPeriod;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+		TSubclassOf<AShootProjectile> ProjectileClass;
 };

@@ -34,8 +34,6 @@ protected:
 
 private:
 	FVector2D TouchLocation;
-	bool Touch;
-	float TouchX, TouchY;
 
 public:	
 	// Called every frame

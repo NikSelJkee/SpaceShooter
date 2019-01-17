@@ -9,7 +9,7 @@ UShootComponent::UShootComponent()
 	:
 	ShootPeriod(1.f)
 {
-	UE_LOG(LogTemp, Log, TEXT("Shoot!!!"));
+
 }
 
 
@@ -22,7 +22,14 @@ void UShootComponent::BeginPlay()
 
 void UShootComponent::Shoot()
 {
+	UE_LOG(LogTemp, Log, TEXT("Shoot!!!"));
 
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(GetOwner()->GetActorLocation());
+
+	FActorSpawnParameters SpawnParameters;
+
+	GetWorld()->SpawnActor<AShootProjectile>(ProjectileClass, SpawnTransform, SpawnParameters);
 }
 
 void UShootComponent::StartShooting()
