@@ -34,7 +34,6 @@ void APlayerPawn::PossessedBy(AController* NewController)
 void APlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

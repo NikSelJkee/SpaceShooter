@@ -24,14 +24,18 @@ void UShootComponent::Shoot()
 {
 	UE_LOG(LogTemp, Log, TEXT("Shoot!!!"));
 
-	FVector SpawnLocation = GetOwner()->GetActorLocation();
+	for (FShootInfo ShootInfo : ShootInfos)
+	{
 
-	FRotator SpawnRotation = GetOwner()->GetActorRotation();
-	//SpawnRotation.Add(0.f, 5.f, 0.f);	
+		FVector SpawnLocation = GetOwner()->GetActorLocation() + GetOwner()->GetActorRotation().RotateVector(ShootInfo.Offset);
 
-	FActorSpawnParameters SpawnParameters;
+		FRotator SpawnRotation = GetOwner()->GetActorRotation();
+		SpawnRotation.Add(0.f, ShootInfo.Angle, 0.f);	
 
-	GetWorld()->SpawnActor<AShootProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParameters);
+		FActorSpawnParameters SpawnParameters;
+
+		GetWorld()->SpawnActor<AShootProjectile>(ShootInfo.ProjectileClass, SpawnLocation, SpawnRotation, SpawnParameters);
+	}
 }
 
 void UShootComponent::StartShooting()
