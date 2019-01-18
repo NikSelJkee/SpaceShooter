@@ -24,12 +24,14 @@ void UShootComponent::Shoot()
 {
 	UE_LOG(LogTemp, Log, TEXT("Shoot!!!"));
 
-	FTransform SpawnTransform;
-	SpawnTransform.SetLocation(GetOwner()->GetActorLocation());
+	FVector SpawnLocation = GetOwner()->GetActorLocation();
+
+	FRotator SpawnRotation = GetOwner()->GetActorRotation();
+	//SpawnRotation.Add(0.f, 5.f, 0.f);	
 
 	FActorSpawnParameters SpawnParameters;
 
-	GetWorld()->SpawnActor<AShootProjectile>(ProjectileClass, SpawnTransform, SpawnParameters);
+	GetWorld()->SpawnActor<AShootProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParameters);
 }
 
 void UShootComponent::StartShooting()

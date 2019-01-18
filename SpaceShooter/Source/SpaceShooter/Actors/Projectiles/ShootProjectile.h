@@ -30,4 +30,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shooting")
 		UStaticMeshComponent* Mesh;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+		float ProjectileSpeed;
 };

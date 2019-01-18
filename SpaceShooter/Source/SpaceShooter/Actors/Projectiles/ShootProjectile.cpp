@@ -5,6 +5,8 @@
 
 // Sets default values
 AShootProjectile::AShootProjectile()
+	:
+	ProjectileSpeed(1000.f)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -14,6 +16,7 @@ AShootProjectile::AShootProjectile()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Collision);
+	Mesh->SetCollisionProfileName("NoCollision");
 }
 
 // Called when the game starts or when spawned
@@ -28,5 +31,6 @@ void AShootProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	AddActorLocalOffset(FVector(ProjectileSpeed*DeltaTime, 0.f, 0.f));
 }
 
