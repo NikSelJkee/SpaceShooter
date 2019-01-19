@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Components/EnemySpawnController.h"
 #include "SpaceShooterGameModeBase.generated.h"
 
 /**
@@ -13,5 +14,11 @@ UCLASS()
 class SPACESHOOTER_API ASpaceShooterGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+	ASpaceShooterGameModeBase();
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enemies")
+		UEnemySpawnController* EnemySpawnController;
+
 };

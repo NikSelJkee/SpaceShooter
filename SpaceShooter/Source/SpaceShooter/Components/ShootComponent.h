@@ -12,13 +12,13 @@ struct FShootInfo
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
 		TSubclassOf<AShootProjectile> ProjectileClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
 		FVector Offset;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shooting")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
 		float Angle;
 
 

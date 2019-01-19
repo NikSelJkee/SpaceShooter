@@ -22,8 +22,6 @@ void UShootComponent::BeginPlay()
 
 void UShootComponent::Shoot()
 {
-	UE_LOG(LogTemp, Log, TEXT("Shoot!!!"));
-
 	for (FShootInfo ShootInfo : ShootInfos)
 	{
 

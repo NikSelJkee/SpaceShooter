@@ -2,3 +2,8 @@
 
 #include "SpaceShooterGameModeBase.h"
 
+ASpaceShooterGameModeBase::ASpaceShooterGameModeBase()
+{
+	EnemySpawnController = CreateDefaultSubobject<UEnemySpawnController>(TEXT("EnemySpawnController"));
+
+}
