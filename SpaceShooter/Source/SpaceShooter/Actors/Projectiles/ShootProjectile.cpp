@@ -24,6 +24,17 @@ void AShootProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (GetOwner())
+	{
+		Collision->IgnoreActorWhenMoving(GetOwner(), true);
+	}
+
+	Collision->OnComponentBeginOverlap.AddDynamic(this, &AShootProjectile::OnProjectileOverplap);
+}
+
+void AShootProjectile::OnProjectileOverplap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 BodyIndex, bool Sweep, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Projectile Overlapping!!!"));
 }
 
 // Called every frame

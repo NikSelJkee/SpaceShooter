@@ -31,6 +31,7 @@ void UShootComponent::Shoot()
 		SpawnRotation.Add(0.f, ShootInfo.Angle, 0.f);	
 
 		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Owner = GetOwner();
 
 		GetWorld()->SpawnActor<AShootProjectile>(ShootInfo.ProjectileClass, SpawnLocation, SpawnRotation, SpawnParameters);
 	}
